@@ -1,7 +1,6 @@
 
 public class SpellChecker {
 
-
 	public static void main(String[] args) {
 		String word = args[0];
 		int threshold = Integer.parseInt(args[1]);
@@ -15,7 +14,7 @@ public class SpellChecker {
 			str = "";
 		}
 		else {
-			str = str.substring(1);
+			str = str.substring(1,str.length());
 		}
 		return str ;
 	}
@@ -23,30 +22,22 @@ public class SpellChecker {
 	public static int levenshtein(String word1, String word2) {
 		word1 = word1.toLowerCase();
 		word2 = word2.toLowerCase();
-		int x = levenshtein(word1, tail(word2));
-		int y = levenshtein(tail(word1), tail(word2));
-		int z = levenshtein(tail(word1), word2);
 		int a = word1.length();
 		int b = word2.length();
-		if( a == 0) {
+
+		if(word1.isEmpty()) {
 			return b;
 		}
-		else {
-			if( b == 0){
-				return a;
+		if( word2.isEmpty()){
+			return a;
 			}
-			else{
-				if( word1.charAt(1) == word2.charAt(1)){
-					return levenshtein(tail(word1), tail(word2));
-				}
-				else {
-
-					return (1 + Math.min(x, Math.min(y, z)));
-				}
-			}
-
+		if(word1.charAt(0) == word2.charAt(0)){
+			return levenshtein(tail(word1), tail(word2));
+		    }
+		int min = Math.min(levenshtein(word1, tail(word2)), Math.min(levenshtein(tail(word1), tail(word2)), levenshtein(tail(word1), word2)));
+					return (1 + min);
 		}
-	}
+
 
 	public static String[] readDictionary(String fileName) {
 		String[] dictionary = new String[3000];
@@ -56,14 +47,13 @@ public class SpellChecker {
 			word = in.readLine();
 			dictionary[i] = word;
 		}
-
 		return dictionary;
 	}
 
 	public static String spellChecker(String word, int threshold, String[] dictionary) {
 		String currentWord = "";
 		for(int i = 0; i < dictionary.length; i++){
-			if(levenshtein(currentWord, word) > levenshtein(word, dictionary[i]) && levenshtein(word, dictionary[i]) < threshold ) {
+			if((levenshtein(currentWord, word) > levenshtein(word, dictionary[i])) && (levenshtein(word, dictionary[i]) < threshold) ) {
 				currentWord = dictionary[i];
 			}
 		}
@@ -72,5 +62,4 @@ public class SpellChecker {
 		}
 		return currentWord;
 	}
-
 }
