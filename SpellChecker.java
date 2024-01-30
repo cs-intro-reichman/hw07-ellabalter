@@ -53,11 +53,11 @@ public class SpellChecker {
 	public static String spellChecker(String word, int threshold, String[] dictionary) {
 		String currentWord = "";
 		for(int i = 0; i < dictionary.length; i++){
-			if((levenshtein(currentWord, word) > levenshtein(word, dictionary[i])) && (levenshtein(word, dictionary[i]) < threshold) ) {
+			if((levenshtein(currentWord, word) > levenshtein(word, dictionary[i])) && (levenshtein(word, dictionary[i]) <= threshold) ) {
 				currentWord = dictionary[i];
 			}
 		}
-		if(currentWord.isEmpty()){
+		if(currentWord.length() == 0){
 			return word;
 		}
 		return currentWord;
