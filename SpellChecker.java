@@ -53,6 +53,8 @@ public class SpellChecker {
 	public static String spellChecker(String word, int threshold, String[] dictionary) {
 		String currentWord = "";
 		for(int i = 0; i < dictionary.length; i++){
+			// # feedback - In order to be more efficient, it is better to call to levenshtein once per word in the dictionary. This means it is better to
+			// save the current min in a variable, and also call "levenshtein(word, dictionary[i])" once and assign it to a variable.
 			if((levenshtein(currentWord, word) > levenshtein(word, dictionary[i])) && (levenshtein(word, dictionary[i]) <= threshold) ) {
 				currentWord = dictionary[i];
 			}
